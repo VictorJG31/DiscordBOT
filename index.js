@@ -43,6 +43,11 @@ var options = {
 
 //--//
 
+//--//
+//web server
+
+
+//--//
 
 
 //discord bot actions
@@ -50,81 +55,79 @@ var options = {
 client.on('ready', () => {
     console.log("Connected as " + client.user.tag)
 
+
+
 });
 
 client.on("message", (message) => {
 
+
+
+    if (message.content.includes("@bruhmoment31")) {
+        message.delete();
+    }
     if (message.content == "coronavirus.info") {
 
         //--// coronavirus stockholm
         T.get('statuses/user_timeline', options, function (err, data) {
 
             for (var i = 0; i < data.length; i++) {
-        
+
                 tweettext = data[i].full_text;
-        
+
                 if (tweettext.includes(substring1)) {
                     var currentnr = i;
                     var recent_report_text = data[i].full_text
                     textarray.push(recent_report_text)
                     var recent_report_date = data[i].created_at
-                    datearray.push(recent_report_date)
-        
-        
-        
-        
+                    datearray.push(recent_report_date);
                 }
-        
-        
-        
             }
-        
+
+
             var split_text = textarray[0].split(" ");
             for (var j = 0; j < split_text.length; j++) {
                 if (split_text[j] == substring1) {
-        
+
                     var coronainfected_new = split_text[j - 1]
-        
                     var coronainfected_new_check = parseInt(coronainfected_new);
+
                     if (isNaN(coronainfected_new_check)) {
                         //console.log("This isn't an integer.")
                     }
                     else {
                         //console.log("Senaste rapport: " + coronainfected_new + " nya coronafall. ")
                     }
-        
                 }
-        
+
                 else if (split_text[j] == substring2) {
-        
+
                     var coronainfected_total = split_text[j + 1]
-        
                     var coronainfected_total_check = parseInt(coronainfected_total);
+
                     if (isNaN(coronainfected_total_check)) {
                         //console.log("This isn't an integer.")
                     }
+
                     else {
                         //console.log("Totalt: " + coronainfected_total + " coronafall i Stockholm. ")
                     }
-        
-        
                 }
-        
-        
             }
-        
+
+
             request(url, function (error, response, body) {
                 // load the page into Cheerio
                 var $page = cheerio.load(body),
-                text = $page("body").text()
-            
+                    text = $page("body").text()
+
                 text = text.replace(/\s+/g, " ").toLowerCase();
-            
+
                 text_split = text.split(" ");
-                
+
                 for (var k = 1; k < text_split.length; k++) {
-            
-            
+
+
                     if (text_split[k] == "totalt") {
                         //console.log(k)
                         var ord_totalt = k;
@@ -134,40 +137,41 @@ client.on("message", (message) => {
                         break;
                     }
                 }
-            
-                
-    
-                
-            
             });
 
 
-            
+
             var date_real = datearray[0].replace('+0000 ', '')
-            message.channel.send("__Sverige COVID19__ " + "\n" + "```" + "|Senaste rapport: " + coronainfected_new + " nya coronafall i Stockholm" + "\n" + "|Totalt: " + coronainfected_total + " coronafall i Stockholm" + "\n" + "|Datum: " + date_real + "```");
-            
-            
+            message.channel.send("__Sverige COVID19__ " + "\n" + "```" + "|Senaste rapport: " + coronainfected_new + " nya coronafall i Stockholm" + "\n" + "|Totalt: " + coronainfected_total + " coronafall i Stockholm" + "\n" + "|Uppdaterades: " + date_real + "```");
 
-        
+
+
+
         })
+    }
 
-        
+    if (message.content == "coronavirus.map") {
+        message.channel.send("https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6");
+    }
 
-        //--// end of coronavirus stockholm
+    if (message.content.includes("!send") && message.author.id == "406870015690932234") {
 
-        //--//coronavirus sverige
+        var message_submit = message.content.replace('!send ', '');
 
-        
+        try {
+            message.delete();
+            message.channel.send(message_submit);
 
-        //--// end of coronavirus sverige
-
-       ;
+        }
+        catch (error) {
+            console.log(error)
+        }
 
     }
 
-    /*if (message.content == "coronavirus.dashboard") {
-
-    }*/
+    else if (message.content.includes("!send")) {
+        message.channel.send(message.author.username + " cringe")
+    }
     if (message.content.includes("!dm") && message.author.id == bruhmoment31) {
 
 
@@ -242,9 +246,7 @@ client.on("message", (message) => {
                 message.channel.send({
                     files: [url]
                 })
-
             })
-
     }
 
     /*else if(message.content.includes("bruh")) {
@@ -286,10 +288,7 @@ client.on("message", (message) => {
         else {
             message.channel.send(thing[0] + " size: " + item)
         }
-
     }
-
-
 
 
     if (message.content.includes("!mute")) {
@@ -297,15 +296,12 @@ client.on("message", (message) => {
             var usr = message.content.split(" ")
             console.log("Muted: " + usr[1])
         }
-
         else {
             message.channel.send(message.author.name + ", That's kinda cringe")
         }
     }
+
     console.log("Message: '" + message.content + "' " + "sent by: " + message.author.tag)
-
-
-
 });
 
 

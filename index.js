@@ -53,15 +53,15 @@ var options = {
 //discord bot actions
 
 client.on('ready', () => {
-    
+
     console.log("Connected as " + client.user.tag)
-    
+
     game = "Fortnite";
     watch = "Top 10 n-words";
     music = "Penis Music";
 
     //client.user.setActivity('Penis Music', { type: 'LISTENING'} ); console.log("Listening set to: Penis Music");
-    client.user.setActivity(game, { type: 'PLAYING'} ); console.log("Game set to: ", game);             
+    client.user.setActivity(game, { type: 'PLAYING' }); console.log("Game set to: ", game);
     //client.user.setActivity(watch, { type: 'WATCHING'} ); console.log("Watching set to: " + watch);
 
 });
@@ -70,14 +70,14 @@ client.on('ready', () => {
 
 client.on("message", (message) => {
 
-    
+
     console.log("Message: '" + message.content + "' " + "sent by '" + message.author.tag + "'");
     if (message.content.includes("@bruhmoment31")) {
-            message.delete();
-        }
+        message.delete();
+    }
 
- 
-        
+
+
     if (message.content == "coronavirus.info") {
 
         //--// coronavirus stockholm
@@ -137,14 +137,14 @@ client.on("message", (message) => {
                 text = text.replace(/\s+/g, " ").toLowerCase();
 
                 text_split = text.split(" ");
-                
+
                 for (var k = 1; k < text_split.length; k++) {
 
                     if (text_split[k] == "totalt") {
                         //console.log(k)
                         var ord_totalt = k;
-                        var sverigetotal = "Totalt: " + text_split[ord_totalt + 2] + " " + text_split[ord_totalt + 3] + " smittade i Sverige";   
-                                     
+                        var sverigetotal = "Totalt: " + text_split[ord_totalt + 2] + " " + text_split[ord_totalt + 3] + " smittade i Sverige";
+
                         break;
                     }
                 }
@@ -152,54 +152,54 @@ client.on("message", (message) => {
                 for (var j = 0; j < text_split.length; j++) {
 
                     if (text_split[j] == "avlidna.") {
-                        console.log(j);
+                        //console.log(j);
                         var ord_totalt_avlidna = j;
                         var sverigetotal_avlidna = "Totalt: " + text_split[ord_totalt_avlidna - 4] + " avlidna i Sverige";
-                        
+
 
 
 
                         message.channel.send({
-                           
-                            "embed": {
-                              "title": "**COVID19**",
-                              "description": "Coronavirus/SARS-CoV-2",
-                              "url": "https://www.who.int/emergencies/diseases/novel-coronavirus-2019",
-                              "color": 8402144,
-                              
-                              "footer": {
-                                "icon_url": "https://i.redd.it/turyrb5prf431.png",
-                                "text": "@bruhmoment31"
-                              },
-                              "thumbnail": {
-                                "url": "https://www.statnews.com/wp-content/uploads/2020/02/Coronavirus-CDC-645x645.jpg"
-                              },
-                              "image": {
-                                "url": "https://www.redcross.org/content/dam/redcross/about-us/news/2020/coronavirus-safety-tw.jpg"
-                              },
-                         
-                              
 
-                              "fields": [
-                                {
-                                  "name": "__Covid19 i region **Stockholm**__:",
-                                  "value": "Senaste rapport: **" + date_real + "**\n" + "Nya smittade: **" + coronainfected_new + "** \n" + "Totalt smittade: **" + coronainfected_total + "**"
+                            "embed": {
+                                "title": "**COVID19**",
+                                "description": "Coronavirus/SARS-CoV-2",
+                                "url": "https://www.who.int/emergencies/diseases/novel-coronavirus-2019",
+                                "color": 8402144,
+
+                                "footer": {
+                                    "icon_url": "https://i.redd.it/turyrb5prf431.png",
+                                    "text": "@bruhmoment31"
                                 },
-                                {
-                                  "name": "__Covid19 i **Sverige**__",
-                                  "value": "Totalt smittade i Sverige: **" + text_split[ord_totalt + 2] + " " + text_split[ord_totalt + 3] + "** \n" + "Totalt avlidna i Sverige: **" + text_split[ord_totalt_avlidna - 4] + "**"
+                                "thumbnail": {
+                                    "url": "https://www.statnews.com/wp-content/uploads/2020/02/Coronavirus-CDC-645x645.jpg"
                                 },
-                                {
-                                  "name": "Coronavirus Map",
-                                  "value": "[John Hopkins University Covid19 Dashboard](<https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6>)",
-                                  "inline": true
+                                "image": {
+                                    "url": "https://www.redcross.org/content/dam/redcross/about-us/news/2020/coronavirus-safety-tw.jpg"
                                 },
-                                {
-                                  "name": "SVT",
-                                  "value": "[SVT senaste nytt](<https://www.svt.se/nyheter/utrikes/senaste-nytt-om-coronaviruset>)",
-                                  "inline": true
-                                }
-                              ]
+
+
+
+                                "fields": [
+                                    {
+                                        "name": "__Covid19 i region **Stockholm**__:",
+                                        "value": "Senaste rapport: **" + date_real + "**\n" + "Nya smittade: **" + coronainfected_new + "** \n" + "Totalt smittade: **" + coronainfected_total + "**"
+                                    },
+                                    {
+                                        "name": "__Covid19 i **Sverige**__",
+                                        "value": "Totalt smittade i Sverige: **" + text_split[ord_totalt + 2] + " " + text_split[ord_totalt + 3] + "** \n" + "Totalt avlidna i Sverige: **" + text_split[ord_totalt_avlidna - 4] + "**"
+                                    },
+                                    {
+                                        "name": "Coronavirus Map",
+                                        "value": "[John Hopkins University Covid19 Dashboard](<https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6>)",
+                                        "inline": true
+                                    },
+                                    {
+                                        "name": "SVT",
+                                        "value": "[SVT senaste nytt](<https://www.svt.se/nyheter/utrikes/senaste-nytt-om-coronaviruset>)",
+                                        "inline": true
+                                    }
+                                ]
                             }
 
                         });
@@ -214,14 +214,14 @@ client.on("message", (message) => {
 
             var date_real = datearray[0].replace('+0000 ', '')
             //message.channel.send("__Sverige COVID19__ " + "\n" + "```" + "|Senaste rapport: " + coronainfected_new + " nya coronafall i Stockholm" + "\n" + "|Totalt: " + coronainfected_total + " coronafall i Stockholm" + "\n" + "|Rapporterades: " + date_real + "```");
-            
+
 
 
 
         });
     }
 
-    
+
 
     if (message.content.includes("!send") && message.author.id == "406870015690932234") {
 
@@ -281,7 +281,9 @@ client.on("message", (message) => {
     else if (message.content == "maymay.dank") {
 
         sub = "dankmemes"
-        randomPuppy()
+        console.log("Subreddit: " + sub)
+
+        randomPuppy(sub)
             .then(url => {
                 console.log(url);
                 message.channel.send({
@@ -290,12 +292,16 @@ client.on("message", (message) => {
             })
 
 
+
+
     }
 
     else if (message.content == "maymay.deepfried") {
 
         sub = "deepfriedmemes"
-        randomPuppy()
+        console.log("Subreddit: " + sub)
+
+        randomPuppy(sub)
             .then(url => {
                 console.log(url);
                 message.channel.send({
@@ -305,17 +311,29 @@ client.on("message", (message) => {
     }
 
     else if (message.content.includes("reddit.")) {
-        var reddittext = message.content.split(".")
+        reddittext = message.content.split(".")
         sub = reddittext[1]
         console.log("Subreddit: " + sub)
+        if (reddittext[1] != '') {
 
-        randomPuppy()
-            .then(url => {
-                console.log(url);
-                message.channel.send({
-                    files: [url]
+            randomPuppy(sub)
+                .then(url => {
+                    console.log(url);
+                    message.channel.send({
+                        files: [url]
+                    })
                 })
-            })
+
+
+
+
+
+
+        }
+
+        else {
+            message.channel.send("No subreddit defined");
+        }
     }
 
     /*else if(message.content.includes("bruh")) {
@@ -374,7 +392,7 @@ client.on("message", (message) => {
         message.channel.send("http://www.discordapp.com/channels/406870922008723456/406870922008723460");
     }
 
-    
+
 });
 
 

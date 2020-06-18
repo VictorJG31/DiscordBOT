@@ -1,2 +1,3 @@
 # DiscordBOT
-DiscordBOT with features: Reddit image, coronavirus tracker
+discord bot
+literally just a bot

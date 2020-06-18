@@ -4,17 +4,13 @@
   "description": "discord bot\r literally just a bot",
   "main": "index.js",
   "dependencies": {
-    "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
-    "discord": "^0.8.2",
     "discord.js": "^12.0.2",
-    "express": "^4.17.1",
     "fetch": "^1.1.0",
+    "imgur": "^0.3.1",
     "package.json": "^2.0.1",
     "random-puppy": "^1.1.0",
-    "request-promise": "^4.2.5",
-    "twit": "^2.2.11",
-    "unirest": "^0.6.0"
+    "request-promise": "^4.2.5"
   },
   "engines": {
     "node": "12.x"
@@ -22,7 +18,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "pm2-runtime start ecosystem.config.js --env protection"
   },
   "repository": {
     "type": "git",

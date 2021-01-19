@@ -220,7 +220,7 @@ client.on("message", (message) => {
         var usr = message.mentions.members.first();
 
         usr.roles.add(mutedrole).catch(console.error);
-        message.channel.send("__Muted__ <:dab:633323859411599371>");
+        message.channel.send("__Muted__ <:dab:723478478888108042>");
 
     }
 

@@ -7,6 +7,7 @@ const rp = require('request-promise');
 const client = new Discord.Client();
 const imgur = require("imgur");
 const cheerio = require('cheerio');
+const { CLIENT_RENEG_LIMIT } = require('tls');
 
 sizes = ["large", "small"]
 facts = ["Orphans are overrated", "Bush did 9/11", "A blue whales penis is about eight metres in length", "Airplane fuel can't melt steel", "The oldest “your mom” joke was discovered on a 3,500 year old Babylonian tablet.", "7% of American adults believe that chocolate milk comes from brown cows.", "Billy goats urinate on their own heads to smell more attractive to females.", "The inventor of the Frisbee was cremated and made into a Frisbee after he died.", "In physics, string theory is a theoretical framework in which the point-like particles of particle physics are replaced by one-dimensional objects called strings. It describes how these strings propagate through space and interact with each other. On distance scales larger than the string scale, a string looks just like an ordinary particle, with its mass, charge, and other properties determined by the vibrational state of the string. In string theory, one of the many vibrational states of the string corresponds to the graviton, a quantum mechanical particle that carries gravitational force. Thus string theory is a theory of quantum gravity.", "In physics, string theory is a theoretical framework in which the point-like particles of particle physics are replaced by one-dimensional objects called strings. It describes how these strings propagate through space and interact with each other. On distance scales larger than the string scale, a string looks just like an ordinary particle, with its mass, charge, and other properties determined by the vibrational state of the string. In string theory, one of the many vibrational states of the string corresponds to the graviton, a quantum mechanical particle that carries gravitational force. Thus string theory is a theory of quantum gravity.", "https://cdn.discordapp.com/attachments/671720677476401177/688122805216477289/image0.jpg"];
@@ -46,9 +47,9 @@ client.on("messageUpdate", (oldMessage, newMessage) => {
         var dformat = [d.getDate(),
         d.getMonth() + 1,
         d.getFullYear()].join('/') + ' ' +
-            [d.getHours(),
-            d.getMinutes(),
-            d.getSeconds()].join(':');
+            [d.getHours().toString().padStart(2, '0'),
+            d.getMinutes().toString().padStart(2, '0'),
+            d.getSeconds().toString().padStart(2, '0')].join(':');
 
         client.channels.cache.get('671720677476401177').send({
             "embed": {
@@ -89,55 +90,85 @@ client.on("message", (message) => {
 
     if (message.attachments.size > 0 && message.author.id != '685539330671902755') {
         var attachment = (message.attachments).array();
-        //var attachmentcomment =
+
+
         var d = new Date(),
             dformat = [d.getDate(),
             d.getMonth() + 1,
             d.getFullYear()].join('/') + ' ' +
-                [d.getHours(),
-                d.getMinutes(),
-                d.getSeconds()].join(':');
-        imgur.uploadUrl(attachment[0].url)
-            .then(function (json) {
-                client.channels.cache.get('671720677476401177').send({
-                    "embed": {
-                        "title": "Message Log",
-                        "color": 2348357,
-                        "timestamp": new Date(),
-                        "image": { "url": json.data.link },
+                [d.getHours().toString().padStart(2, '0'),
+                d.getMinutes().toString().padStart(2, '0'),
+                d.getSeconds().toString().padStart(2, '0')].join(':');
+        if (attachment[0].url.endsWith('.mp4') || attachment[0].url.endsWith('.webm') || attachment[0].url.endsWith('.mov')) {
+            client.channels.cache.get('671720677476401177').send({
+                "embed": {
+                    "title": "Message Log",
+                    "color": 2348357,
+                    "image": { "url": attachment[0].url },
 
-                        "fields": [
-                            {
-                                "name": "**Attachment Link:**",
-                                "value": json.data.link
-                            },
-                            {
-                                "name": "**Date:**",
-                                "value": "`" + dformat + "`"
-                            },
-                            {
-                                "name": "**Sent by:**",
-                                "value": "<@" + message.author.id + ">",
-                                "inline": true
-                            },
-                            {
-                                "name": "**In channel:**",
-                                "value": "<#" + message.channel.id + ">",
-                                "inline": true
-                            }
-                        ]
+                    "fields": [
+                        {
+                            "name": "**Attachment Link:**",
+                            "value": attachment[0].url
+                        },
+                        {
+                            "name": "**Date:**",
+                            "value": "`" + dformat + "`"
+                        },
+                        {
+                            "name": "**Sent by:**",
+                            "value": "<@" + message.author.id + ">",
+                            "inline": true
+                        },
+                        {
+                            "name": "**In channel:**",
+                            "value": "<#" + message.channel.id + ">",
+                            "inline": true
+                        }
+                    ]
+                }
+            })
 
+            console.log("Message: '" + attachment[0].url + "' " + "sent by " + message.author.tag + " in #" + message.channel.name);
 
-                    }
+        }
+        else {
+            imgur.uploadUrl(attachment[0].url)
+                .then(function (json) {
+                    client.channels.cache.get('671720677476401177').send({
+                        "embed": {
+                            "title": "Message Log",
+                            "color": 2348357,
+                            "image": { "url": json.data.link },
 
+                            "fields": [
+                                {
+                                    "name": "**Attachment Link:**",
+                                    "value": json.data.link
+                                },
+                                {
+                                    "name": "**Date:**",
+                                    "value": "`" + dformat + "`"
+                                },
+                                {
+                                    "name": "**Sent by:**",
+                                    "value": "<@" + message.author.id + ">",
+                                    "inline": true
+                                },
+                                {
+                                    "name": "**In channel:**",
+                                    "value": "<#" + message.channel.id + ">",
+                                    "inline": true
+                                }
+                            ]
+                        }
+                    });
 
+                    console.log("Message: '" + json.data.link + "' " + "sent by " + message.author.tag + " in #" + message.channel.name);
 
+                })
+        }
 
-                });
-
-                console.log("Message: '" + json.data.link + "' " + "sent by " + message.author.tag + " in #" + message.channel.name);
-
-            });
     }
 
     if (message.author.id != '685539330671902755' && message.content != '') {
@@ -145,16 +176,15 @@ client.on("message", (message) => {
             dformat = [d.getDate(),
             d.getMonth() + 1,
             d.getFullYear()].join('/') + ' ' +
-                [d.getHours(),
-                d.getMinutes(),
-                d.getSeconds()].join(':');
+                [d.getHours().toString().padStart(2, '0'),
+                d.getMinutes().toString().padStart(2, '0'),
+                d.getSeconds().toString().padStart(2, '0')].join(':');
 
         client.channels.cache.get('671720677476401177').send({
 
             "embed": {
                 "title": "Message Log",
                 "color": 2348357,
-
 
                 "fields": [
                     {
@@ -339,7 +369,7 @@ client.on("message", (message) => {
     }
 
 
-    else if (message.content == "bild.walter") {
+    else if (message.content == "walter.bild") {
         message.channel.send({ files: ["walter.jpeg"] })
     }
 
@@ -448,6 +478,6 @@ client.on("message", (message) => {
 });
 
 
-bot_secret_token = "Njg1NTM5MzMwNjcxOTAyNzU1.Xm6OPQ.iHjGv-_8alv57B9fxUNfGxRStCA";
+bot_secret_token = lmao nice try;
 
 client.login(bot_secret_token);
